@@ -1,7 +1,7 @@
 # mybatis.archetype
-spring mybatis junit archetype
+spring mybatis junit mockito archetype
 
-基于此archetype可以创建一个spring mybatis的空白工程， 包含了一个DemoUser CRUD的示例， 以及单元测试。
+基于此`archetype`可以创建一个`spring mybatis`的空白工程， 包含了一个`DemoUser` CRUD的示例， 以及单元测试。
 
 可以通过如下命令来生成一个新的工程
 ```
@@ -51,6 +51,17 @@ bar
             ├── log4j.xml
             └── spring
                 └── ApplicationContextTest.xml
+```
+####DemoUser建表语句
+```
+CREATE TABLE `demo_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mobile` varchar(11) NOT NULL,
+  `nick` varchar(10) NOT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mobile` (`mobile`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 ### 参考文档
 https://geekofficedog.blogspot.com/2013/08/creating-maven-archetypes-tutorial.html

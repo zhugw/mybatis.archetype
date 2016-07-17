@@ -1,0 +1,4 @@
+.idea/
+*.iml
+mybatis.archetype.xml
+target/

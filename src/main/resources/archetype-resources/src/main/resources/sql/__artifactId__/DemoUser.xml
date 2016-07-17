@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.dao.mapper.DemoUserMapper">
+    <resultMap id="userResultMap" type="${package}.dao.entity.DemoUserEntity">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="userColumns">
+        id,mobile,nick
+    </sql>
+
+    <insert id="insertUser" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into demo_user (mobile,nick) values (${P}{mobile},${P}{nick})
+    </insert>
+
+    <select id="findById" resultMap="userResultMap">
+        select
+        <include refid="userColumns"/>
+        from demo_user where id = ${P}{0}
+    </select>
+
+    <select id="findByIds" resultMap="userResultMap">
+        select
+        <include refid="userColumns"/>
+        from demo_user where id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            ${P}{item}
+        </foreach>
+    </select>
+
+    <select id="findUsers" resultMap="userResultMap">
+        select
+        <include refid="userColumns"/>
+        from demo_user
+        <where>
+            <if test="nick != null and nick != ''">
+                and nick = ${P}{nick}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = ${P}{mobile}
+            </if>
+            <if test="createTimeFrom != null">
+                and create_time >= ${P}{createTimeFrom}
+            </if>
+            <if test="createTimeTo != null">
+                and create_time &lt;= ${P}{createTimeTo}
+            </if>
+        </where>
+        order by id limit ${P}{offset},${P}{itemsPerPage}
+    </select>
+
+    <update id="updateMobile">
+        update demo_user set mobile = ${P}{newMobile} where id = ${P}{id}
+    </update>
+
+</mapper>
